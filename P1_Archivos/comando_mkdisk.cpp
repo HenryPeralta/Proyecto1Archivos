@@ -31,7 +31,7 @@ void comando_mkdisk::crearDisco(comando_mkdisk *disco){
     char buffer[1024];
 
     //Si son Kb
-    if(disco->unit == "k"){
+    if(disco->unit == "k" || disco->unit == "K"){
         //Este if es para el tamaño
         prueba.mbr_tamano = disco->size*1024;
 
@@ -46,7 +46,7 @@ void comando_mkdisk::crearDisco(comando_mkdisk *disco){
     }
 
     //Si son megas
-    else if(disco->unit == "m" || disco->unit.empty() == 1){
+    else if(disco->unit == "m" || disco->unit == "M" || disco->unit.empty() == 1){
         prueba.mbr_tamano = disco->size*1024*1024; //En bytes
         for(int i = 0; i<1024; i++){
             buffer[i] = '\0';

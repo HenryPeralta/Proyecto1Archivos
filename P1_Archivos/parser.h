@@ -60,36 +60,37 @@ extern int yydebug;
     pmegabyte = 266,
     ppath = 267,
     pextension = 268,
-    pmkdir = 269,
-    punto = 270,
-    bracketabre = 271,
-    bracketcierra = 272,
-    corcheteabre = 273,
-    corchetecierra = 274,
-    puntocoma = 275,
-    potencia = 276,
-    coma = 277,
-    parentesisabre = 278,
-    parentesiscierra = 279,
-    llaveabre = 280,
-    llavecierra = 281,
-    mas = 282,
-    menos = 283,
-    multiplicacion = 284,
-    igual = 285,
-    dolar = 286,
-    dospuntos = 287,
-    diagonal = 288,
-    entero = 289,
-    numnegativo = 290,
-    cadena = 291,
-    identificador = 292,
-    caracter = 293,
-    ruta = 294,
-    rutacualquiera = 295,
-    suma = 296,
-    multi = 297,
-    division = 298
+    prmdisk = 269,
+    pmkdir = 270,
+    punto = 271,
+    bracketabre = 272,
+    bracketcierra = 273,
+    corcheteabre = 274,
+    corchetecierra = 275,
+    puntocoma = 276,
+    potencia = 277,
+    coma = 278,
+    parentesisabre = 279,
+    parentesiscierra = 280,
+    llaveabre = 281,
+    llavecierra = 282,
+    mas = 283,
+    menos = 284,
+    multiplicacion = 285,
+    igual = 286,
+    dolar = 287,
+    dospuntos = 288,
+    diagonal = 289,
+    entero = 290,
+    numnegativo = 291,
+    cadena = 292,
+    identificador = 293,
+    caracter = 294,
+    ruta = 295,
+    rutacualquiera = 296,
+    suma = 297,
+    multi = 298,
+    division = 299
   };
 #endif
 
@@ -107,8 +108,9 @@ char TEXT[256];
 int texto;
 //QString texto;
 class comando_mkdisk *mkdisk;
+class comando_rmdisk *rmdisk;
 
-#line 112 "parser.h"
+#line 114 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -5,9 +5,9 @@
 #include "qdebug.h"
 #include <iostream>
 #include "comando_mkdisk.h"
+#include "comando_rmdisk.h"
 #include "string"
 #include <string.h>
-//#include "obmkdisk.h"
 using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
@@ -34,6 +34,7 @@ char TEXT[256];
 int texto;
 //QString texto;
 class comando_mkdisk *mkdisk;
+class comando_rmdisk *rmdisk;
 }
 //TERMINALES DE TIPO TEXT, SON STRINGS
 
@@ -48,6 +49,7 @@ class comando_mkdisk *mkdisk;
 %token<TEXT> pmegabyte;
 %token<TEXT> ppath;
 %token<TEXT> pextension;
+%token<TEXT> prmdisk;
 
 %token<TEXT> pmkdir;
 
@@ -87,6 +89,7 @@ class comando_mkdisk *mkdisk;
 
 
 %type<mkdisk> COMANDOMKDISK;
+%type<rmdisk> COMANDORMDISK;
 %type<TEXT> TAMANOBYTE;
 %type<TEXT> TIPOAJUSTE;
 %type<TEXT> PATH;
@@ -100,14 +103,16 @@ class comando_mkdisk *mkdisk;
 INICIO : LEXPA { }
 ;
 
-LEXPA:  pmkdisk COMANDOMKDISK
+LEXPA: pmkdisk COMANDOMKDISK
 {
-
-$2->crearDisco($2);
-printf("estoy en lexpa primera produccion");
+    $2->crearDisco($2);
+    printf("estoy en lexpa primera produccion");
 }
-
-
+| prmdisk COMANDORMDISK
+{
+    $2->borrarDisco($2);
+    printf("estoy en lexpa primera produccion prmdisk");
+}
 ;
 
 COMANDOMKDISK:
@@ -176,4 +181,8 @@ PATH diagonal identificador {
     strcpy($$, dire.c_str());
 }
 |cadena{$$;}
+;
+
+COMANDORMDISK:
+menos ppath igual PATH {comando_rmdisk *disco = new comando_rmdisk(); disco->path= $4; $$=disco;}
 ;
