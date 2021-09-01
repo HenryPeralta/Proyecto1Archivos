@@ -5,6 +5,7 @@
 #include <iostream>
 #include <time.h>
 #include "string"
+#include <QString>
 using namespace std;
 
 comando_mkdisk::comando_mkdisk()
@@ -21,9 +22,13 @@ void comando_mkdisk::crearDisco(comando_mkdisk *disco){
     printf("La ruta es %s \n",disco->path.c_str());
     printf("El tipo de ajuste es %s \n",disco->fit.c_str());
 
+    QString cambio_ruta = disco->path.c_str();
+    cambio_ruta.replace(QString("\""), QString(""));
+    string rutax = cambio_ruta.toStdString();
+
     mbr prueba;
     FILE *archivo;
-    archivo = fopen(disco->path.c_str(), "wb");
+    archivo = fopen(rutax.c_str(), "wb");
     if(archivo == NULL){
         exit(1);
     }
@@ -72,11 +77,18 @@ void comando_mkdisk::crearDisco(comando_mkdisk *disco){
     strcpy(prueba.mbr_fecha_creacion, buf); //Se convierte a char para guardarlo en el mrb
 
     //Si el fit viene vacio se asigna por defecto primer ajuste
-    if(disco ->fit.empty() == true){
-        strcpy(prueba.disk_fit, "F"); //Se convierte a char para guardarlo en el mrb
-    }else{
-        strcpy(prueba.disk_fit, disco->fit.c_str());//Se convierte a char para guardarlo en el mrb
+    char auxfit = 0;
+    if(disco ->fit == "BF" || disco ->fit == "bf"){
+        //strcpy(prueba.disk_fit, "F"); //Se convierte a char para guardarlo en el mrb
+        auxfit = 'B';
+    }else if(disco ->fit == "FF" || disco ->fit == "ff" || disco->fit.empty()==true){
+        //strcpy(prueba.disk_fit, disco->fit.c_str());//Se convierte a char para guardarlo en el mrb
+        auxfit = 'F';
+    }else if(disco ->fit == "WF" || disco ->fit == "wf"){
+        auxfit = 'W';
     }
+
+    prueba.disk_fit = auxfit;
 
     printf("\n FECHA DE CREACION: %s\n", prueba.mbr_fecha_creacion);
 
@@ -92,22 +104,14 @@ void comando_mkdisk::crearDisco(comando_mkdisk *disco){
     }
 
     //Agregamos el mrb al disco
-    archivo = fopen(disco->path.c_str(), "rb+"); //Modo de escritura mixto permite actualizar un fichero sin borrar el contenido
-    if(archivo == NULL){
+    archivo = fopen(rutax.c_str(), "rb+"); //Modo de escritura mixto permite actualizar un fichero sin borrar el contenido
+    if(archivo != NULL){
         fseek(archivo, 0, SEEK_SET);
         fwrite(&prueba, sizeof(mbr), 1, archivo);
         fclose(archivo);
         printf("DISCO CREADO CORRECTAMENTE \n SE AGREGO EL MBR DE MANERA CORRECTA\n");
+    }else{
+        printf("Error!\n No se puede acceder al disco, MBR no creado\n");
     }
 }
 
-/*void comando_mkdisk::crearDisco(comando_mkdisk *disco){
-
-          printf("\n\n---------DATOS----------\n\n");
-
-          printf("EL tamano es %d \n",disco->size);
-          printf("El tipo de unidad es %s \n",disco->unit.c_str());
-          printf("La ruta es %s \n",disco->path.c_str());
-          printf("El tipo de ajuste es %s \n",disco->fit.c_str());
-
-}*/

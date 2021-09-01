@@ -13,14 +13,16 @@ comando_rmdisk::comando_rmdisk()
 void comando_rmdisk::borrarDisco(comando_rmdisk *disco){
 
           printf("\n\n---------DATOS----------\n\n");
-          printf("La ruta a borrar es %s \n",disco->path.c_str());
+          printf("La ruta del disco a borrar es %s \n",disco->path.c_str());
 
-          QString ruta = disco->path.c_str();
-          std::cout << ruta.toStdString() << std::endl;
+          QString cambio_ruta = disco->path.c_str();
+          cambio_ruta.replace(QString("\""), QString(""));
+          string rutax = cambio_ruta.toStdString();
+
+          QString ruta = rutax.c_str();
 
           FILE *archivo;
           if((archivo=fopen(ruta.toStdString().c_str(),"r"))){
-              std::cout << "Hola" << std:: endl;
               string opcion = "";
               cout << "¿Esta seguro que desea eliminar el disco? S/N : ";
               getline(cin, opcion);

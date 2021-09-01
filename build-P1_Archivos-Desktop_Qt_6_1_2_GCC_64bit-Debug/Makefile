@@ -52,13 +52,15 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../P1_Archivos/comando_mkdisk.cpp \
+SOURCES       = ../P1_Archivos/comando_fdisk.cpp \
+		../P1_Archivos/comando_mkdisk.cpp \
 		../P1_Archivos/comando_rmdisk.cpp \
 		../P1_Archivos/estructuras.cpp \
 		../P1_Archivos/main.cpp \
 		../P1_Archivos/parser.cpp \
 		../P1_Archivos/scanner.cpp 
-OBJECTS       = comando_mkdisk.o \
+OBJECTS       = comando_fdisk.o \
+		comando_mkdisk.o \
 		comando_rmdisk.o \
 		estructuras.o \
 		main.o \
@@ -204,11 +206,13 @@ DIST          = ../P1_Archivos/lexico.l \
 		../../../../Qt/6.1.2/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../Qt/6.1.2/gcc_64/mkspecs/features/yacc.prf \
 		../../../../Qt/6.1.2/gcc_64/mkspecs/features/lex.prf \
-		../P1_Archivos/P1_Archivos.pro ../P1_Archivos/comando_mkdisk.h \
+		../P1_Archivos/P1_Archivos.pro ../P1_Archivos/comando_fdisk.h \
+		../P1_Archivos/comando_mkdisk.h \
 		../P1_Archivos/comando_rmdisk.h \
 		../P1_Archivos/estructuras.h \
 		../P1_Archivos/parser.h \
-		../P1_Archivos/scanner.h ../P1_Archivos/comando_mkdisk.cpp \
+		../P1_Archivos/scanner.h ../P1_Archivos/comando_fdisk.cpp \
+		../P1_Archivos/comando_mkdisk.cpp \
 		../P1_Archivos/comando_rmdisk.cpp \
 		../P1_Archivos/estructuras.cpp \
 		../P1_Archivos/main.cpp \
@@ -521,8 +525,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt/6.1.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../P1_Archivos/comando_mkdisk.h ../P1_Archivos/comando_rmdisk.h ../P1_Archivos/estructuras.h ../P1_Archivos/parser.h ../P1_Archivos/scanner.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/estructuras.cpp ../P1_Archivos/main.cpp ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.h ../P1_Archivos/comando_mkdisk.h ../P1_Archivos/comando_rmdisk.h ../P1_Archivos/estructuras.h ../P1_Archivos/parser.h ../P1_Archivos/scanner.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/estructuras.cpp ../P1_Archivos/main.cpp ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -570,11 +574,56 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
+comando_fdisk.o: ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_fdisk.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_fdisk.o ../P1_Archivos/comando_fdisk.cpp
+
 comando_mkdisk.o: ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_mkdisk.h \
 		../P1_Archivos/estructuras.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_mkdisk.o ../P1_Archivos/comando_mkdisk.cpp
 
-comando_rmdisk.o: ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/comando_rmdisk.h
+comando_rmdisk.o: ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/comando_rmdisk.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtmetamacros.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydataops.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qanystringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qutf8stringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringbuilder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_rmdisk.o ../P1_Archivos/comando_rmdisk.cpp
 
 estructuras.o: ../P1_Archivos/estructuras.cpp ../P1_Archivos/estructuras.h
@@ -745,7 +794,9 @@ parser.o: ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.h \
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/qobject_impl.h \
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/qproperty.h \
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/qpropertyprivate.h \
-		../P1_Archivos/comando_mkdisk.h
+		../P1_Archivos/comando_mkdisk.h \
+		../P1_Archivos/comando_rmdisk.h \
+		../P1_Archivos/comando_fdisk.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parser.o ../P1_Archivos/parser.cpp
 
 scanner.o: ../P1_Archivos/scanner.cpp ../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \

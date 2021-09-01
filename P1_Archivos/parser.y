@@ -6,6 +6,7 @@
 #include <iostream>
 #include "comando_mkdisk.h"
 #include "comando_rmdisk.h"
+#include "comando_fdisk.h"
 #include "string"
 #include <string.h>
 using namespace std;
@@ -35,6 +36,7 @@ int texto;
 //QString texto;
 class comando_mkdisk *mkdisk;
 class comando_rmdisk *rmdisk;
+class comando_fdisk *fdisk;
 }
 //TERMINALES DE TIPO TEXT, SON STRINGS
 
@@ -50,6 +52,17 @@ class comando_rmdisk *rmdisk;
 %token<TEXT> ppath;
 %token<TEXT> pextension;
 %token<TEXT> prmdisk;
+%token<TEXT> pfdisk;
+%token<TEXT> pbyte;
+%token<TEXT> ptype;
+%token<TEXT> ppartiprimaria;
+%token<TEXT> ppartiextendida;
+%token<TEXT> ppartilogica;
+%token<TEXT> pdelete;
+%token<TEXT> pfast;
+%token<TEXT> pfull;
+%token<TEXT> pname;
+%token<TEXT> padd;
 
 %token<TEXT> pmkdir;
 
@@ -93,6 +106,12 @@ class comando_rmdisk *rmdisk;
 %type<TEXT> TAMANOBYTE;
 %type<TEXT> TIPOAJUSTE;
 %type<TEXT> PATH;
+%type<fdisk> COMANDOFDISK;
+%type<TEXT> TIPONAME;
+%type<TEXT> TIPOPARTICION;
+%type<TEXT> TAMBYTEFDISK;
+%type<TEXT> TIPODELETE
+%type<TEXT> TIPOADD
 
 %left suma menos
 %left multi division
@@ -112,6 +131,11 @@ LEXPA: pmkdisk COMANDOMKDISK
 {
     $2->borrarDisco($2);
     printf("estoy en lexpa primera produccion prmdisk");
+}
+| pfdisk COMANDOFDISK
+{
+    $2->adminParticiones($2);
+    printf("estoy en lexpa primera produccion pfdisk");
 }
 ;
 
@@ -185,4 +209,56 @@ PATH diagonal identificador {
 
 COMANDORMDISK:
 menos ppath igual PATH {comando_rmdisk *disco = new comando_rmdisk(); disco->path= $4; $$=disco;}
+;
+
+COMANDOFDISK:
+COMANDOFDISK menos psize igual entero {int tam = atoi($5); $1->size = tam; $$=$1; }
+| menos psize igual entero {int tam = atoi($4); comando_fdisk *disco = new comando_fdisk(); disco->size= tam; $$=disco; }
+| COMANDOFDISK menos ppath igual PATH {$1->path= $5; $$=$1;}
+| menos ppath igual PATH {comando_fdisk *disco = new comando_fdisk(); disco->path= $4; $$=disco;}
+| COMANDOFDISK menos pname igual TIPONAME {$1->name= $5; $$=$1;}
+| menos pname igual TIPONAME {comando_fdisk *disco = new comando_fdisk(); disco->name= $4; $$=disco;}
+| COMANDOFDISK menos ptype igual TIPOPARTICION {$1->type= $5; $$=$1;}
+| menos ptype igual TIPOPARTICION {comando_fdisk *disco = new comando_fdisk(); disco->type= $4; $$=disco;}
+| COMANDOFDISK menos punidad igual TAMBYTEFDISK {$1->unit= $5; $$=$1;}
+| menos punidad igual TAMBYTEFDISK {comando_fdisk *disco = new comando_fdisk(); disco->unit= $4; $$=disco;}
+| COMANDOFDISK menos pfit igual TIPOAJUSTE {$1->fit= $5; $$=$1;}
+| menos pfit igual TIPOAJUSTE {comando_fdisk *disco = new comando_fdisk(); disco->fit= $4; $$=disco;}
+| COMANDOFDISK menos pdelete igual TIPODELETE {$1->coman_delete= $5; $$=$1;}
+| menos pdelete igual TIPODELETE {comando_fdisk *disco = new comando_fdisk(); disco->coman_delete= $4; $$=disco;}
+| COMANDOFDISK menos padd igual TIPOADD {$1->add= atoi($5); $$=$1;}
+| menos padd igual TIPOADD {comando_fdisk *disco = new comando_fdisk(); disco->add= atoi($4); $$=disco;}
+;
+
+TIPONAME:
+identificador {$$;}
+| cadena {$$;}
+;
+
+TIPOPARTICION:
+ppartiprimaria {$$;}
+| ppartiextendida {$$;}
+| ppartilogica {$$;}
+;
+
+TAMBYTEFDISK:
+pbyte {$$;}
+| pkilobyte {$$;}
+| pmegabyte {$$;}
+;
+
+TIPODELETE:
+pfast {$$;}
+| pfull {$$;}
+;
+
+TIPOADD:
+menos entero{
+    string menox($1);
+    string enterox($2);
+    menox.append(enterox);
+
+    strcpy($$, menox.c_str());
+}
+| entero{$$;}
 ;
