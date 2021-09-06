@@ -574,10 +574,95 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-comando_fdisk.o: ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_fdisk.h
+comando_fdisk.o: ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_fdisk.h \
+		../P1_Archivos/estructuras.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtmetamacros.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydataops.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qanystringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qutf8stringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringbuilder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_fdisk.o ../P1_Archivos/comando_fdisk.cpp
 
 comando_mkdisk.o: ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_mkdisk.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstring.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qchar.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobal.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qconfig.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qlogging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qflags.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qmutex.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qtmetamacros.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qpair.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qarraydataops.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qbytearrayview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qanystringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qutf8stringview.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringtokenizer.h \
+		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringbuilder.h \
 		../P1_Archivos/estructuras.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_mkdisk.o ../P1_Archivos/comando_mkdisk.cpp
 

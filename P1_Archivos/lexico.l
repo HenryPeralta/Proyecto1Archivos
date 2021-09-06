@@ -23,8 +23,8 @@
 
 
 
-
-entero [0-9]+
+digitos "-"?[0-9]
+entero {digitos}+
 letra [a-zA-ZÑñáéíóúÁÉÍÓÚ]+
 
 

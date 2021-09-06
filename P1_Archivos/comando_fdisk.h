@@ -16,11 +16,22 @@ public:
     string coman_delete;
     string name;
     int add;
+    string psize;
+    string punit;
+    string ppath;
+    string ptype;
+    string pfit;
+    string pcoman_delete;
+    string pname;
+    string padd;
     void adminParticiones(comando_fdisk *disco);
     void crear_particones(string path, string name, int size, string fit, string unit, string archivo);
     void crearParticionPrimaria(string path, string name, int size, string fit, string unit, string archivo);
     bool existeParticion(string path, string name);
     void crearParticionExtendida(string path, string name, int size, string fit, string unit, string archivo);
+    void crearParticionLogica(string path, string name, int size, string fit, string unit, string archivo);
+    void metodoAdd(string path, string name, int add, string unit, string archivo);
+    int buscarParticion_L(string path, string name);
 };
 
 #endif // COMANDO_FDISK_H

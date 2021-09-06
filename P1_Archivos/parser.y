@@ -111,7 +111,7 @@ class comando_fdisk *fdisk;
 %type<TEXT> TIPOPARTICION;
 %type<TEXT> TAMBYTEFDISK;
 %type<TEXT> TIPODELETE
-%type<TEXT> TIPOADD
+//%type<TEXT> TIPOADD
 
 %left suma menos
 %left multi division
@@ -140,16 +140,14 @@ LEXPA: pmkdisk COMANDOMKDISK
 ;
 
 COMANDOMKDISK:
-COMANDOMKDISK menos psize igual entero {int tam = atoi($5); $1->size = tam; $$=$1;}
-| menos psize igual entero {int tam = atoi($4); comando_mkdisk *disco = new comando_mkdisk(); disco->size= tam; $$=disco; }
-//| COMANDOMKDISK menos psize igual menos entero
-//| menos psize igual menos entero
-| COMANDOMKDISK menos punidad igual TAMANOBYTE {$1->unit= $5; $$=$1;}
-| menos punidad igual TAMANOBYTE {comando_mkdisk *disco = new comando_mkdisk(); disco->unit= $4; $$=disco;}
-| COMANDOMKDISK menos pfit igual TIPOAJUSTE {$1->fit= $5; $$=$1;}
-| menos pfit igual TIPOAJUSTE {comando_mkdisk *disco = new comando_mkdisk(); disco->fit= $4; $$=disco;}
-| COMANDOMKDISK menos ppath igual PATH {$1->path= $5; $$=$1;}
-| menos ppath igual PATH {comando_mkdisk *disco = new comando_mkdisk(); disco->path= $4; $$=disco;}
+COMANDOMKDISK menos psize igual entero {int tam = atoi($5); $1->psize = $3; $1->size = tam; $$=$1;}
+| menos psize igual entero {int tam = atoi($4); comando_mkdisk *disco = new comando_mkdisk(); disco->size= tam; disco->psize = $2; $$=disco; }
+| COMANDOMKDISK menos punidad igual TAMANOBYTE {$1->punit = $3; $1->unit= $5; $$=$1;}
+| menos punidad igual TAMANOBYTE {comando_mkdisk *disco = new comando_mkdisk(); disco->unit= $4; disco->punit = $2; $$=disco;}
+| COMANDOMKDISK menos pfit igual TIPOAJUSTE {$1->pfit = $3; $1->fit= $5; $$=$1;}
+| menos pfit igual TIPOAJUSTE {comando_mkdisk *disco = new comando_mkdisk(); disco->fit= $4; disco->pfit = $2; $$=disco;}
+| COMANDOMKDISK menos ppath igual PATH {$1->ppath = $3; $1->path= $5; $$=$1;}
+| menos ppath igual PATH {comando_mkdisk *disco = new comando_mkdisk(); disco->path= $4; disco->ppath = $2; $$=disco;}
 ;
 
 TAMANOBYTE:
@@ -212,22 +210,22 @@ menos ppath igual PATH {comando_rmdisk *disco = new comando_rmdisk(); disco->pat
 ;
 
 COMANDOFDISK:
-COMANDOFDISK menos psize igual entero {int tam = atoi($5); $1->size = tam; $$=$1; }
-| menos psize igual entero {int tam = atoi($4); comando_fdisk *disco = new comando_fdisk(); disco->size= tam; $$=disco; }
-| COMANDOFDISK menos ppath igual PATH {$1->path= $5; $$=$1;}
-| menos ppath igual PATH {comando_fdisk *disco = new comando_fdisk(); disco->path= $4; $$=disco;}
-| COMANDOFDISK menos pname igual TIPONAME {$1->name= $5; $$=$1;}
-| menos pname igual TIPONAME {comando_fdisk *disco = new comando_fdisk(); disco->name= $4; $$=disco;}
-| COMANDOFDISK menos ptype igual TIPOPARTICION {$1->type= $5; $$=$1;}
-| menos ptype igual TIPOPARTICION {comando_fdisk *disco = new comando_fdisk(); disco->type= $4; $$=disco;}
-| COMANDOFDISK menos punidad igual TAMBYTEFDISK {$1->unit= $5; $$=$1;}
-| menos punidad igual TAMBYTEFDISK {comando_fdisk *disco = new comando_fdisk(); disco->unit= $4; $$=disco;}
-| COMANDOFDISK menos pfit igual TIPOAJUSTE {$1->fit= $5; $$=$1;}
-| menos pfit igual TIPOAJUSTE {comando_fdisk *disco = new comando_fdisk(); disco->fit= $4; $$=disco;}
-| COMANDOFDISK menos pdelete igual TIPODELETE {$1->coman_delete= $5; $$=$1;}
-| menos pdelete igual TIPODELETE {comando_fdisk *disco = new comando_fdisk(); disco->coman_delete= $4; $$=disco;}
-| COMANDOFDISK menos padd igual TIPOADD {$1->add= atoi($5); $$=$1;}
-| menos padd igual TIPOADD {comando_fdisk *disco = new comando_fdisk(); disco->add= atoi($4); $$=disco;}
+COMANDOFDISK menos psize igual entero {int tam = atoi($5); $1->psize = $3; $1->size = tam; $$=$1; }
+| menos psize igual entero {int tam = atoi($4); comando_fdisk *disco = new comando_fdisk(); disco->size= tam; disco->psize = $2; $$=disco; }
+| COMANDOFDISK menos ppath igual PATH {$1->ppath = $3; $1->path= $5; $$=$1;}
+| menos ppath igual PATH {comando_fdisk *disco = new comando_fdisk(); disco->path= $4; disco->ppath = $2; $$=disco;}
+| COMANDOFDISK menos pname igual TIPONAME {$1->pname = $3; $1->name= $5; $$=$1;}
+| menos pname igual TIPONAME {comando_fdisk *disco = new comando_fdisk(); disco->name= $4; disco->pname = $2; $$=disco;}
+| COMANDOFDISK menos ptype igual TIPOPARTICION {$1->ptype = $3; $1->type= $5; $$=$1;}
+| menos ptype igual TIPOPARTICION {comando_fdisk *disco = new comando_fdisk(); disco->type= $4; disco->ptype = $2; $$=disco;}
+| COMANDOFDISK menos punidad igual TAMBYTEFDISK {$1->punit = $3; $1->unit= $5; $$=$1;}
+| menos punidad igual TAMBYTEFDISK {comando_fdisk *disco = new comando_fdisk(); disco->unit= $4; disco->punit = $2; $$=disco;}
+| COMANDOFDISK menos pfit igual TIPOAJUSTE {$1->pfit = $3; $1->fit= $5; $$=$1;}
+| menos pfit igual TIPOAJUSTE {comando_fdisk *disco = new comando_fdisk(); disco->fit= $4; disco->pfit = $2; $$=disco;}
+| COMANDOFDISK menos pdelete igual TIPODELETE {$1->pcoman_delete = $3; $1->coman_delete= $5; $$=$1;}
+| menos pdelete igual TIPODELETE {comando_fdisk *disco = new comando_fdisk(); disco->coman_delete= $4; disco->pcoman_delete = $2; $$=disco;}
+| COMANDOFDISK menos padd igual entero {$1->padd = $3; $1->add= atoi($5); $$=$1;}
+| menos padd igual entero {comando_fdisk *disco = new comando_fdisk(); disco->add= atoi($4); disco->padd = $2; $$=disco;}
 ;
 
 TIPONAME:
@@ -252,7 +250,7 @@ pfast {$$;}
 | pfull {$$;}
 ;
 
-TIPOADD:
+/*TIPOADD:
 menos entero{
     string menox($1);
     string enterox($2);
@@ -261,4 +259,4 @@ menos entero{
     strcpy($$, menox.c_str());
 }
 | entero{$$;}
-;
+;*/
