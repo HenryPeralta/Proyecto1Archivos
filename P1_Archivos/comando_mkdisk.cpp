@@ -53,8 +53,10 @@ void comando_mkdisk::ejecutarDisco(int size, string fechacreacion, string unit, 
     cambio_ruta.replace(QString("\""), QString(""));
     string rutax = cambio_ruta.toStdString();
 
+    printf("La ruta nueva es: %s \n",rutax.c_str());
+
     mbr prueba;
-    creandoRuta(path);
+    creandoRuta(cambio_ruta);
 
     FILE *archivo;
     archivo = fopen(rutax.c_str(), "rb+");
@@ -154,6 +156,10 @@ void comando_mkdisk::creandoRuta(QString path){
 }
 
 QString comando_mkdisk::obtener_path(QString path){
+    /*QString cambio_ruta = path;
+    cambio_ruta.replace(QString("\""), QString(""));
+    string rutax = cambio_ruta.toStdString();*/
+
     string aux = path.toStdString();
     string delimiter = "/";
     size_t pos = 0;

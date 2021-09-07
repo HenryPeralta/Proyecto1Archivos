@@ -27,6 +27,10 @@ void comando_fdisk::adminParticiones(comando_fdisk *disco){
     bool bandera_add = false;
     bool validacion = false;
 
+    QString cambio_name = disco->name.c_str();
+    cambio_name.replace(QString("\""), QString(""));
+    string nuevo_name = cambio_name.toStdString();
+
     if(disco->ppath == "path"){
         if(disco->path.empty()){
             std::cout<<"Faltan valores del path \n";
@@ -87,19 +91,19 @@ void comando_fdisk::adminParticiones(comando_fdisk *disco){
 
         if(bandera_size == false){
             if(bandera_delete == true && bandera_add == true){
-                crear_particones(disco->path, disco->name, disco->size, disco->fit, disco->unit, "principal");
+                crear_particones(disco->path, nuevo_name, disco->size, disco->fit, disco->unit, "principal");
             }else{
                 std::cout<<"Se esta creando una particion, los Parametros -delete, -add no estan permitidos.\n";
             }
         }else if(bandera_add == false){
             if(bandera_delete == true && bandera_size == true && bandera_type == true){
-                metodoAdd(disco->path, disco->name, disco->add, disco->unit, "principal");
+                metodoAdd(disco->path, nuevo_name, disco->add, disco->unit, "principal");
             }else{
                 std::cout<<"Se esta modificando el tamaño una particion, los Parametros -delete, -size no estas permitidos.\n";
             }
         }else if(bandera_delete == false){
-            if(bandera_add == true && bandera_size == true || bandera_type == true){
-
+            if(bandera_add == true && bandera_size == true && bandera_type == true){
+                eliminarParticion(disco->path, nuevo_name, disco->coman_delete, "principal");
             }else{
                 std::cout<<"Se esta eliminando una particion, los Parametros -size, -add, -f, -type no estan permitidos.\n";
             }
@@ -631,7 +635,11 @@ bool comando_fdisk::existeParticion(string path, string name){
 }
 
 void comando_fdisk::metodoAdd(string path, string name, int add, string unit, string archivo){
-    string auxPath = path;
+    QString cambio_ruta = path.c_str();
+    cambio_ruta.replace(QString("\""), QString(""));
+    string rutax = cambio_ruta.toStdString();
+
+    string auxPath = rutax;
     string auxNombre = name;
     int size_Bytes = 0;
     QString tipo = "";
@@ -846,7 +854,11 @@ void comando_fdisk::metodoAdd(string path, string name, int add, string unit, st
 }
 
 int comando_fdisk::buscarParticion_L(string path, string name){
-    string auxPath = path;
+    QString cambio_ruta = path.c_str();
+    cambio_ruta.replace(QString("\""), QString(""));
+    string rutax = cambio_ruta.toStdString();
+
+    string auxPath = rutax;
     string auxName = name;
     FILE *Archivo;
     if((Archivo = fopen(auxPath.c_str(),"rb+"))){
@@ -872,4 +884,121 @@ int comando_fdisk::buscarParticion_L(string path, string name){
         fclose(Archivo);
     }
     return -1;
+}
+
+void comando_fdisk::eliminarParticion(string path, string name, string coman_delete, string archivo){
+    QString cambio_ruta = path.c_str();
+    cambio_ruta.replace(QString("\""), QString(""));
+    string rutax = cambio_ruta.toStdString();
+
+    string auxPath = rutax;
+    string auxNombre = name;
+    FILE *Archivo;
+    if((Archivo = fopen(auxPath.c_str(), "rb+"))){
+        //Verificar que la particion no este montada
+        //bool mount = lista->buscarNodo(direccion,nombre);
+        //if(!mount){
+            mbr MBR;
+            fseek(Archivo,0,SEEK_SET);
+            fread(&MBR,sizeof (mbr),1,Archivo);
+            int index = -1;
+            int index_Extendida = -1;
+            bool flagExtendida = false;
+            //string opcion = "";
+            char buffer = '\0';
+            //Buscamos la particion primaria/extendida
+            for(int i = 0; i < 4; i++){
+                if((strcmp(MBR.mbr_partitions[i].part_name, auxNombre.c_str())) == 0){
+                    index = i;
+                    if(MBR.mbr_partitions[i].part_type == 'E')
+                        flagExtendida = true;
+                    break;
+                }else if(MBR.mbr_partitions[i].part_type == 'E'){
+                    index_Extendida = i;
+                }
+            }
+            //ELIMINA LAS PARTICIONES SI NO ESTAN MONTADAS
+                if(index != -1){//Si se encontro en las principales
+                    if(!flagExtendida){//primaria
+                        if(coman_delete == "fast"){
+                            MBR.mbr_partitions[index].part_status = '1';
+                            strcpy(MBR.mbr_partitions[index].part_name,"");
+                            fseek(Archivo,0,SEEK_SET);
+                            fwrite(&MBR,sizeof(mbr),1,Archivo);
+                            if(archivo == "principal") cout << "\033[96mParticion primaria eliminada con exito.\033[0m" << endl;
+
+                        }else{//full
+                            MBR.mbr_partitions[index].part_status = '1';
+                            strcpy(MBR.mbr_partitions[index].part_name,"");
+                            fseek(Archivo,0,SEEK_SET);
+                            fwrite(&MBR,sizeof(mbr),1,Archivo);
+                            fseek(Archivo,MBR.mbr_partitions[index].part_start,SEEK_SET);
+                            fwrite(&buffer,1,MBR.mbr_partitions[index].part_size,Archivo);
+                            if(archivo == "principal") cout << "\033[96mParticion primaria eliminada con exito.\033[0m" << endl;
+                        }
+                    }else{//extendida
+                        if(coman_delete == "fast"){
+                            MBR.mbr_partitions[index].part_status = '1';
+                            strcpy(MBR.mbr_partitions[index].part_name,"");
+                            fseek(Archivo,0,SEEK_SET);
+                            fwrite(&MBR,sizeof(mbr),1,Archivo);
+                            if(archivo == "principal") cout << "\033[96mParticion extendida eliminada con exito.\033[0m" << endl;
+                        }else{//full
+                            MBR.mbr_partitions[index].part_status = '1';
+                            strcpy(MBR.mbr_partitions[index].part_name,"");
+                            fseek(Archivo,0,SEEK_SET);
+                            fwrite(&MBR,sizeof(mbr),1,Archivo);
+                            fseek(Archivo,MBR.mbr_partitions[index].part_start,SEEK_SET);
+                            fwrite(&buffer,1,MBR.mbr_partitions[index].part_size,Archivo);
+                            if(archivo == "principal") cout << "\033[96mParticion extendida eliminada con exito.\033[0m" << endl;
+                        }
+                    }
+                }else{//Si es una particion logica
+                    if(index_Extendida != -1){
+                        bool flag = false;//Bandera para saber si existe
+                        ebr EBR;
+                        fseek(Archivo,MBR.mbr_partitions[index_Extendida].part_start, SEEK_SET);
+                        fread(&EBR,sizeof(ebr),1,Archivo);
+                        if(EBR.part_size!=0){
+                            fseek(Archivo, MBR.mbr_partitions[index_Extendida].part_start,SEEK_SET);
+                            while((fread(&EBR,sizeof(ebr),1,Archivo))!=0 && (ftell(Archivo) < (MBR.mbr_partitions[index_Extendida].part_start + MBR.mbr_partitions[index_Extendida].part_size))) {
+                                if(strcmp(EBR.part_name, name.c_str()) == 0 && EBR.part_status != '1'){
+                                    flag = true;
+                                    break;
+                                }else if(EBR.part_next == -1){//Ya es la ultima y no se encontro
+                                    break;
+                                }
+                            }
+                        }
+                        if(flag){
+                            if(coman_delete == "fast"){
+                                EBR.part_status = '1';
+                                strcpy(EBR.part_name, "");
+                                fseek(Archivo, ftell(Archivo)-sizeof(ebr),SEEK_SET);
+                                fwrite(&EBR,sizeof(ebr),1,Archivo);
+                                if(archivo == "principal") cout << "\033[96mParticion logica eliminada con exito.\033[0m" << endl;
+                            }else{//full
+                                EBR.part_status = '1';
+                                strcpy(EBR.part_name, "");
+                                fseek(Archivo, ftell(Archivo)-sizeof(ebr),SEEK_SET);
+                                fwrite(&EBR,sizeof(ebr),1,Archivo);
+                                fwrite(&buffer,1,EBR.part_size,Archivo);
+                                if(archivo == "principal") cout << "\033[96mParticion logica eliminada con exito.\033[0m" << endl;
+                            }
+                        }else{
+                            cout << "\033[31mERROR: no se encuentra la particion a eliminar.\033[0m" << endl;
+                        }
+                    }else{
+                        cout << "\033[31mERROR: no se encuentra la particion a eliminar.\033[0m" << endl;
+                    }
+                }
+
+
+        //}else{
+            //cout << "\033[31mERROR: desmote primero la particion para poder eliminarlo.\033[0m" << endl;
+        //}
+    fclose(Archivo);
+    }else{
+        cout << "\033[31mERROR: el disco donde se va a eliminar no existe.\033[0m" << endl;
+    }
 }

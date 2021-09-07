@@ -54,6 +54,7 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../P1_Archivos/comando_fdisk.cpp \
 		../P1_Archivos/comando_mkdisk.cpp \
+		../P1_Archivos/comando_mount.cpp \
 		../P1_Archivos/comando_rmdisk.cpp \
 		../P1_Archivos/estructuras.cpp \
 		../P1_Archivos/main.cpp \
@@ -61,6 +62,7 @@ SOURCES       = ../P1_Archivos/comando_fdisk.cpp \
 		../P1_Archivos/scanner.cpp 
 OBJECTS       = comando_fdisk.o \
 		comando_mkdisk.o \
+		comando_mount.o \
 		comando_rmdisk.o \
 		estructuras.o \
 		main.o \
@@ -208,11 +210,13 @@ DIST          = ../P1_Archivos/lexico.l \
 		../../../../Qt/6.1.2/gcc_64/mkspecs/features/lex.prf \
 		../P1_Archivos/P1_Archivos.pro ../P1_Archivos/comando_fdisk.h \
 		../P1_Archivos/comando_mkdisk.h \
+		../P1_Archivos/comando_mount.h \
 		../P1_Archivos/comando_rmdisk.h \
 		../P1_Archivos/estructuras.h \
 		../P1_Archivos/parser.h \
 		../P1_Archivos/scanner.h ../P1_Archivos/comando_fdisk.cpp \
 		../P1_Archivos/comando_mkdisk.cpp \
+		../P1_Archivos/comando_mount.cpp \
 		../P1_Archivos/comando_rmdisk.cpp \
 		../P1_Archivos/estructuras.cpp \
 		../P1_Archivos/main.cpp \
@@ -525,8 +529,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../Qt/6.1.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.h ../P1_Archivos/comando_mkdisk.h ../P1_Archivos/comando_rmdisk.h ../P1_Archivos/estructuras.h ../P1_Archivos/parser.h ../P1_Archivos/scanner.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/estructuras.cpp ../P1_Archivos/main.cpp ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.h ../P1_Archivos/comando_mkdisk.h ../P1_Archivos/comando_mount.h ../P1_Archivos/comando_rmdisk.h ../P1_Archivos/estructuras.h ../P1_Archivos/parser.h ../P1_Archivos/scanner.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../P1_Archivos/comando_fdisk.cpp ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_mount.cpp ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/estructuras.cpp ../P1_Archivos/main.cpp ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -665,6 +669,9 @@ comando_mkdisk.o: ../P1_Archivos/comando_mkdisk.cpp ../P1_Archivos/comando_mkdis
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/qstringbuilder.h \
 		../P1_Archivos/estructuras.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_mkdisk.o ../P1_Archivos/comando_mkdisk.cpp
+
+comando_mount.o: ../P1_Archivos/comando_mount.cpp ../P1_Archivos/comando_mount.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comando_mount.o ../P1_Archivos/comando_mount.cpp
 
 comando_rmdisk.o: ../P1_Archivos/comando_rmdisk.cpp ../P1_Archivos/comando_rmdisk.h \
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \
@@ -881,7 +888,8 @@ parser.o: ../P1_Archivos/parser.cpp ../P1_Archivos/scanner.h \
 		../../../../Qt/6.1.2/gcc_64/include/QtCore/qpropertyprivate.h \
 		../P1_Archivos/comando_mkdisk.h \
 		../P1_Archivos/comando_rmdisk.h \
-		../P1_Archivos/comando_fdisk.h
+		../P1_Archivos/comando_fdisk.h \
+		../P1_Archivos/comando_mount.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parser.o ../P1_Archivos/parser.cpp
 
 scanner.o: ../P1_Archivos/scanner.cpp ../../../../Qt/6.1.2/gcc_64/include/QtCore/QString \

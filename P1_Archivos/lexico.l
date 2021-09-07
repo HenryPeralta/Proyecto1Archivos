@@ -33,8 +33,7 @@ letra [a-zA-ZÑñáéíóúÁÉÍÓÚ]+
 
 identificador {letra}({letra}|{entero}|"_")*
 caracter "\'"("\\")?({letra}|{entero})"\'"
-cadena [\"][^\"\n]*[\"\n]
-
+cadena ["\""][^"\""]*["\""]
 
 %x COM
 
@@ -64,7 +63,7 @@ cadena [\"][^\"\n]*[\"\n]
 "FULL" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return pfull;}
 "NAME" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return pname;}
 "ADD" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return padd;}
-
+"MOUNT" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return pmount;}
 
 {entero} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return entero;}
 {cadena} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return cadena;}
@@ -100,5 +99,5 @@ cadena [\"][^\"\n]*[\"\n]
 .   {
 
 std::cout<<"Error Lexico: "<<linea<<"\n";
-//printf("Error lexico en linea %d",linea);
+    //printf("Error lexico en linea %d",linea);
 }

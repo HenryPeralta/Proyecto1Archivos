@@ -32,6 +32,7 @@ public:
     void crearParticionLogica(string path, string name, int size, string fit, string unit, string archivo);
     void metodoAdd(string path, string name, int add, string unit, string archivo);
     int buscarParticion_L(string path, string name);
+    void eliminarParticion(string path, string name, string pcoman_delete, string archivo);
 };
 
 #endif // COMANDO_FDISK_H

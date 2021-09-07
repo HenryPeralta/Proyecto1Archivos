@@ -72,36 +72,37 @@ extern int yydebug;
     pfull = 278,
     pname = 279,
     padd = 280,
-    pmkdir = 281,
-    punto = 282,
-    bracketabre = 283,
-    bracketcierra = 284,
-    corcheteabre = 285,
-    corchetecierra = 286,
-    puntocoma = 287,
-    potencia = 288,
-    coma = 289,
-    parentesisabre = 290,
-    parentesiscierra = 291,
-    llaveabre = 292,
-    llavecierra = 293,
-    mas = 294,
-    menos = 295,
-    multiplicacion = 296,
-    igual = 297,
-    dolar = 298,
-    dospuntos = 299,
-    diagonal = 300,
-    entero = 301,
-    numnegativo = 302,
-    cadena = 303,
-    identificador = 304,
-    caracter = 305,
-    ruta = 306,
-    rutacualquiera = 307,
-    suma = 308,
-    multi = 309,
-    division = 310
+    pmount = 281,
+    pmkdir = 282,
+    punto = 283,
+    bracketabre = 284,
+    bracketcierra = 285,
+    corcheteabre = 286,
+    corchetecierra = 287,
+    puntocoma = 288,
+    potencia = 289,
+    coma = 290,
+    parentesisabre = 291,
+    parentesiscierra = 292,
+    llaveabre = 293,
+    llavecierra = 294,
+    mas = 295,
+    menos = 296,
+    multiplicacion = 297,
+    igual = 298,
+    dolar = 299,
+    dospuntos = 300,
+    diagonal = 301,
+    entero = 302,
+    numnegativo = 303,
+    cadena = 304,
+    identificador = 305,
+    caracter = 306,
+    ruta = 307,
+    rutacualquiera = 308,
+    suma = 309,
+    multi = 310,
+    division = 311
   };
 #endif
 
@@ -109,7 +110,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "parser.y"
+#line 30 "parser.y"
 
 //se especifican los tipo de valores para los no terminales y lo terminales
 //char TEXT [256];
@@ -121,8 +122,9 @@ int texto;
 class comando_mkdisk *mkdisk;
 class comando_rmdisk *rmdisk;
 class comando_fdisk *fdisk;
+class comando_mount *mount;
 
-#line 126 "parser.h"
+#line 128 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

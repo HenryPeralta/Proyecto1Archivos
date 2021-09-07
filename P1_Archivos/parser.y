@@ -7,6 +7,7 @@
 #include "comando_mkdisk.h"
 #include "comando_rmdisk.h"
 #include "comando_fdisk.h"
+#include "comando_mount.h"
 #include "string"
 #include <string.h>
 using namespace std;
@@ -37,6 +38,7 @@ int texto;
 class comando_mkdisk *mkdisk;
 class comando_rmdisk *rmdisk;
 class comando_fdisk *fdisk;
+class comando_mount *mount;
 }
 //TERMINALES DE TIPO TEXT, SON STRINGS
 
@@ -63,6 +65,7 @@ class comando_fdisk *fdisk;
 %token<TEXT> pfull;
 %token<TEXT> pname;
 %token<TEXT> padd;
+%token<TEXT> pmount;
 
 %token<TEXT> pmkdir;
 
@@ -110,7 +113,8 @@ class comando_fdisk *fdisk;
 %type<TEXT> TIPONAME;
 %type<TEXT> TIPOPARTICION;
 %type<TEXT> TAMBYTEFDISK;
-%type<TEXT> TIPODELETE
+%type<TEXT> TIPODELETE;
+%type<mount> COMANDOMOUNT;
 //%type<TEXT> TIPOADD
 
 %left suma menos
@@ -136,6 +140,10 @@ LEXPA: pmkdisk COMANDOMKDISK
 {
     $2->adminParticiones($2);
     printf("estoy en lexpa primera produccion pfdisk");
+}
+| pmount COMANDOMOUNT{
+    $2->creandoMount($2);
+    printf("estoy en lexpa primera produccion pmount");
 }
 ;
 
@@ -250,13 +258,9 @@ pfast {$$;}
 | pfull {$$;}
 ;
 
-/*TIPOADD:
-menos entero{
-    string menox($1);
-    string enterox($2);
-    menox.append(enterox);
-
-    strcpy($$, menox.c_str());
-}
-| entero{$$;}
-;*/
+COMANDOMOUNT:
+COMANDOMOUNT menos ppath igual PATH {$1->ppath = $3; $1->path= $5; $$=$1;}
+| menos ppath igual PATH {comando_mount *disco = new comando_mount(); disco->path= $4; disco->ppath = $2; $$=disco;}
+| COMANDOMOUNT menos pname igual TIPONAME {$1->pname = $3; $1->name= $5; $$=$1;}
+| menos pname igual TIPONAME {comando_mount *disco = new comando_mount(); disco->name= $4; disco->pname = $2; $$=disco;}
+;

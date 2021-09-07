@@ -10,6 +10,7 @@ CONFIG -= app_bundle
 SOURCES += \
         comando_fdisk.cpp \
         comando_mkdisk.cpp \
+        comando_mount.cpp \
         comando_rmdisk.cpp \
         estructuras.cpp \
         main.cpp \
@@ -28,6 +29,7 @@ DISTFILES += \
 HEADERS += \
     comando_fdisk.h \
     comando_mkdisk.h \
+    comando_mount.h \
     comando_rmdisk.h \
     estructuras.h \
     parser.h \
