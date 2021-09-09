@@ -13,9 +13,11 @@ SOURCES += \
         comando_mount.cpp \
         comando_rmdisk.cpp \
         estructuras.cpp \
+        lista_particiones.cpp \
         main.cpp \
         parser.cpp \
-        scanner.cpp
+        scanner.cpp \
+        tipo_particiones.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,5 +34,7 @@ HEADERS += \
     comando_mount.h \
     comando_rmdisk.h \
     estructuras.h \
+    lista_particiones.h \
     parser.h \
-    scanner.h
+    scanner.h \
+    tipo_particiones.h
